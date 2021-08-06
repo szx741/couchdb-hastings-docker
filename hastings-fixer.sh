@@ -2,9 +2,11 @@
 
 if [ "$1" = "before-configure" ]
 then
-  sed -i '/DepDescs = \[/a \{easton,           "easton",           "bc03c71de798be1f0e4b3c74da0eaeb7a2938c78"\},\n\{hastings ,        "hastings",         "1cca585bc63c3c246b674fca33a661b083e9f6f7"\},' rebar.config.script
+  sed -i '/DepDescs = \[/a \{easton,           "easton",           "94320846e6a46913d862f7e79c749907a8ce2aae"\},\n\{hastings ,        "hastings",         "96f1a5776b44ae1135392f811f82a74a87711a45"\},' rebar.config.script
+  # sed -i '/DepDescs = \[/a \{easton,           "easton",           "94320846e6a46913d862f7e79c749907a8ce2aae"\},\n\{hastings ,        "hastings",         "16c9850109c601e173fd2885edd70052ac1274d8"\},' rebar.config.script //这个不行
+  # sed -i '/DepDescs = \[/a \{easton,           "easton",           "94320846e6a46913d862f7e79c749907a8ce2aae"\},\n\{hastings ,        "hastings",         "276f99c6707b9156f846d615d084d0107ce57420"\},' rebar.config.script
   # Fix failing fauxton build
-  sed -i '/fauxton/{n;s/".*"/"v1.1.13"/}' rebar.config.script
+  # sed -i '/fauxton/{n;s/".*"/"v1.1.13"/}' rebar.config.script
   sed -i '/MakeDep = fun/a\\t\t(\{AppName, RepoName, Version\}) when AppName == hastings; AppName == easton ->\n\t\t\tUrl = "https://github.com/cloudant-labs/" ++ RepoName ++ ".git",\n\t\t\t{AppName, ".*", \{git, Url, Version\}\};\n' rebar.config.script
   sed -i '/{plugins, \[/a    hastings_epi,' rel/apps/couch_epi.config
   sed -i '/{rel, "couchdb"/a        easton,' rel/reltool.config
@@ -56,6 +58,9 @@ EOT
   sed -i '/: DDoc.ddoc/a\\t\t"st_index_doc": Spatial.indexDoc,' share/server/loop.js
 
   echo "[hastings]
+enabled = true
+
+[easton]
 enabled = true" >> rel/overlay/etc/default.ini
   sed -i '/JsFiles = \[/a        "share/server/spatial.js",' support/build_js.escript
   sed -i '/CoffeeFiles = \[/a        "share/server/spatial.js",' support/build_js.escript
